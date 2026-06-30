@@ -17,14 +17,64 @@
     </section>
 
     <section class="hero">
-      <h2>BIZ-ARB Kft. anyagok</h2>
-      <p>Ez a publikus tesztoldal azt mutatja meg, hogyan kerulhetnek az agent altal keszitett ajanlatok es email draftok kattinthato linkkent a Google Sheet lead trackerbe.</p>
+      <h2>Lead kampany attekintes</h2>
+      <p>Ez a publikus tesztoldal azt mutatja meg, hogyan kerulhetnek az agent altal keszitett ajanlatok es email draftok kattinthato linkkent a Google Sheet lead trackerbe. A struktura ugy van kialakitva, hogy egy masodik lead sor ugyanebbe az attekintesbe keruljon.</p>
     </section>
 
-    <section class="assetList" aria-label="Publikus anyagok">
-      <a class="assetRow" href="./leads/biz-arb/"><span>Lead oldal</span><small>kutatasi osszefoglalo es statusz</small></a>
-      <a class="assetRow" href="./leads/biz-arb/ajanlat.pdf"><span>PDF ajanlat</span><small>egyoldalas, nyomtathato ajanlat</small></a>
-      <a class="assetRow" href="./leads/biz-arb/email-draft/"><span>Email draft</span><small>nem kikuldott megkeresesi szoveg</small></a>
+    <section class="summaryCards" aria-label="Kampany osszefoglalo">
+      <article>
+        <span>Leadek</span>
+        <strong>1</strong>
+        <p>1 pilot lead rogzítve, a kovetkezo lead uj sorkent jelenik meg.</p>
+      </article>
+      <article>
+        <span>Ajánlatok</span>
+        <strong>1 PDF</strong>
+        <p>HTML ajanlat, PDF ajanlat es email draft keszult.</p>
+      </article>
+      <article>
+        <span>Kikuldes</span>
+        <strong>0</strong>
+        <p>Nincs eles email kikuldve; minden emberi jovahagyasra var.</p>
+      </article>
+      <article>
+        <span>Reakcio</span>
+        <strong>0</strong>
+        <p>Meg nincs valasz vagy elfogadott ajanlat.</p>
+      </article>
+    </section>
+
+    <section class="leadOverview" aria-label="Lead lista">
+      <div class="sectionHeader">
+        <div>
+          <p class="kicker">Tracker nezet</p>
+          <h2>Leadek es publikus anyagok</h2>
+        </div>
+        <a class="smallLink" href="https://github.com/Simalibagit/simaliba-lead-demo-public">GitHub repo</a>
+      </div>
+
+      <div class="leadTable">
+        <div class="leadTableHeader">
+          <span>Lead</span>
+          <span>Ceg / statusz</span>
+          <span>Anyagok</span>
+          <span>Kovetkezo lepes</span>
+        </div>
+        <article class="leadTableRow">
+          <span class="leadId">LEAD-003-001</span>
+          <div>
+            <strong>BIZ-ARB Kft.</strong>
+            <small>Draft kesz; nincs kikuldve. Ajanlat jovahagyasra var.</small>
+          </div>
+          <div class="linkGroup">
+            <a href="./leads/biz-arb/">Lead oldal</a>
+            <a href="./leads/biz-arb/ajanlat/">HTML</a>
+            <a href="./leads/biz-arb/ajanlat.pdf">PDF</a>
+            <a href="./leads/biz-arb/email-draft/">Email draft</a>
+          </div>
+          <span>Kezi ellenorzes, majd jovahagyas utan kikuldes.</span>
+        </article>
+      </div>
     </section>
   </main>
 </body>
