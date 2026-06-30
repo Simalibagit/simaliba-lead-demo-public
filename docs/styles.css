@@ -92,10 +92,26 @@ h1 {
   line-height: 1.6;
 }
 
+.hero h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+}
+
 .assetList {
   margin-top: 22px;
   display: grid;
   gap: 10px;
+}
+
+.noteBox {
+  margin-top: 18px;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--green);
+  border-radius: 8px;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .summaryCards {
@@ -218,6 +234,63 @@ h1 {
   text-decoration: none;
 }
 
+.sourceList {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.sourceList a {
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.sourceList a:hover {
+  text-decoration: underline;
+}
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 0;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.callout {
+  margin-top: 18px;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffffff, #edf5f1);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.callout h3 {
+  margin-top: 0;
+}
+
+.finePrint {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .assetRow {
   display: flex;
   justify-content: space-between;
@@ -313,6 +386,12 @@ li {
   line-height: 1.6;
 }
 
+.offerIntro {
+  margin-top: 16px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .offerGrid {
   margin-top: 22px;
   display: grid;
@@ -352,6 +431,58 @@ li {
 
 .emailBox strong {
   color: var(--ink);
+}
+
+.emailMeta {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.emailMeta .pillRow {
+  margin-top: 0;
+}
+
+.summaryTable {
+  margin-top: 22px;
+}
+
+.summaryTable .leadTable {
+  margin-top: 0;
+}
+
+.inlineLink {
+  color: var(--blue);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.inlineLink:hover {
+  text-decoration: underline;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .shell,
+  .offerPage {
+    width: 100%;
+    padding: 0;
+  }
+
+  .status,
+  .smallLink,
+  .button {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .smallLink,
+  .button {
+    text-decoration: none;
+  }
 }
 
 hr {
