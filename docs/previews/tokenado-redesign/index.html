@@ -169,7 +169,7 @@
             <p class="mt-1 text-sm font-semibold">magyar token penalty</p>
           </div>
           <div class="metric rounded-[8px] p-4">
-            <p class="mono text-3xl font-black">$20,53</p>
+            <p class="mono text-3xl font-black">$23,10</p>
             <p class="mt-1 text-sm font-semibold">korrigált adó / 1M token</p>
           </div>
         </div>
@@ -314,8 +314,9 @@
                 A magyar morfológiai töredezettség miatt ugyanazon információ kifejezéséhez becslés szerint 1,6-szer több token szükséges. Ezért a modell nyelvi normalizációt használ.
               </p>
               <div class="mt-5 grid gap-3 text-sm">
-                <div class="flex justify-between gap-4"><span>Nyers kompenzációs kulcs</span><strong class="mono">$32,85 / 1M token</strong></div>
-                <div class="flex justify-between gap-4"><span>Magyar nyelvre korrigált kulcs</span><strong class="mono text-[var(--accent-soft)]">$20,53 / 1M token</strong></div>
+                <div class="flex justify-between gap-4"><span>Árfolyam feltételezés</span><strong class="mono">320 HUF/USD</strong></div>
+                <div class="flex justify-between gap-4"><span>Nyers kompenzációs kulcs</span><strong class="mono">$36,96 / 1M token</strong></div>
+                <div class="flex justify-between gap-4"><span>Magyar nyelvre korrigált kulcs</span><strong class="mono text-[var(--accent-soft)]">$23,10 / 1M token</strong></div>
               </div>
             </div>
           </div>
@@ -505,8 +506,8 @@
           labels: [['Modest', '5%'], ['Substantial', '30%'], ['Extreme', '65%']],
           datasets: [
             { label: 'Éves tokenfogyasztás (billió)', data: [11.04, 165.68, 717.92], backgroundColor: ink, borderRadius: 4, yAxisID: 'y' },
-            { label: 'Nyers tokenadó ($/1M)', data: [82.13, 32.85, 16.43], type: 'line', borderColor: accent, backgroundColor: accent, borderWidth: 2, pointRadius: 4, yAxisID: 'y1' },
-            { label: 'Magyar korrigált adó ($)', data: [51.33, 20.53, 10.27], type: 'line', borderColor: '#9a8b78', backgroundColor: '#9a8b78', borderWidth: 2, borderDash: [5, 5], pointRadius: 4, yAxisID: 'y1' }
+            { label: 'Nyers tokenadó ($/1M)', data: [92.44, 36.96, 18.48], type: 'line', borderColor: accent, backgroundColor: accent, borderWidth: 2, pointRadius: 4, yAxisID: 'y1' },
+            { label: 'Magyar korrigált adó ($)', data: [57.78, 23.10, 11.55], type: 'line', borderColor: '#9a8b78', backgroundColor: '#9a8b78', borderWidth: 2, borderDash: [5, 5], pointRadius: 4, yAxisID: 'y1' }
           ]
         },
         options: {
