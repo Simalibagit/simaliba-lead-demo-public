@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tisza AI | Tokenadó és munkaerőpiaci diszrupció</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --ink: #151515;
+      --muted: #606066;
+      --line: #d9d8d2;
+      --paper: #f4f3ed;
+      --panel: #fbfaf5;
+      --accent: #b02a2a;
+      --accent-soft: #ead6d2;
+      --charcoal: #242426;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, rgb(21 21 21 / 0.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgb(21 21 21 / 0.035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 44px 44px;
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    .report-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .hairline {
+      border-color: var(--line);
+    }
+
+    .panel {
+      background: rgb(251 250 245 / 0.92);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    .metric {
+      border-top: 3px solid var(--accent);
+      background: var(--panel);
+    }
+
+    .chart-box {
+      position: relative;
+      width: 100%;
+      height: 360px;
+    }
+
+    canvas {
+      max-width: 100% !important;
+    }
+
+    @media (max-width: 760px) {
+      .chart-box {
+        height: 300px;
+      }
+    }
+
+    .section-number {
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .small-caps {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .quiet-table > div {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .quiet-table > div:last-child {
+      border-bottom: 0;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .panel, .metric {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="no-print sticky top-0 z-10 border-b hairline bg-[rgb(244_243_237_/_0.88)] backdrop-blur">
+    <div class="report-shell flex h-16 items-center justify-between gap-6">
+      <a href="#top" class="flex items-center gap-3">
+        <span class="grid h-8 w-8 place-items-center rounded-[6px] bg-[var(--ink)] text-sm font-black text-[var(--paper)]">T</span>
+        <span class="text-sm font-semibold tracking-tight">Tisza AI fiskális jegyzet</span>
+      </a>
+      <nav class="hidden items-center gap-5 text-xs font-medium text-[var(--muted)] md:flex">
+        <a href="#munkaero" class="hover:text-[var(--ink)]">Munkaerő</a>
+        <a href="#fiskalis" class="hover:text-[var(--ink)]">Adókiesés</a>
+        <a href="#alternativak" class="hover:text-[var(--ink)]">Alternatívák</a>
+        <a href="#tokenado" class="hover:text-[var(--ink)]">Tokenadó</a>
+        <a href="#audit" class="hover:text-[var(--ink)]">Audit</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="report-shell grid gap-10 py-16 md:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-24">
+      <div class="max-w-3xl">
+        <div class="mb-8 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
+          <span>Makroökonómiai elemzés</span>
+          <span>Magyarország 2026</span>
+          <span>Tokenadó modellezés</span>
+        </div>
+        <h1 class="max-w-[11ch] text-4xl font-black leading-[0.94] tracking-tight text-[var(--ink)] sm:text-6xl lg:text-7xl">
+          AI, adóalap, token.
+        </h1>
+        <p class="mt-7 max-w-[58ch] text-lg leading-8 text-[var(--charcoal)]">
+          A kognitív munka kiváltása közvetlen béradó-kiesést okozhat. A tokenadó erre fogyasztási oldali kompenzációs mechanizmust ad.
+        </p>
+      </div>
+
+      <div class="panel p-5 shadow-[0_24px_80px_rgb(40_40_38_/_0.10)]">
+        <div class="mb-5 flex items-start justify-between gap-4 border-b hairline pb-4">
+          <div>
+            <p class="small-caps mb-2 text-[var(--accent)]">Fő forgatókönyv</p>
+            <h2 class="text-2xl font-black tracking-tight">Substantial hatás</h2>
+          </div>
+          <span class="mono rounded-[6px] bg-[var(--ink)] px-3 py-1.5 text-xs text-[var(--paper)]">30%</span>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <div class="metric rounded-[8px] p-4">
+            <p class="mono text-3xl font-black">1 959,5</p>
+            <p class="mt-1 text-sm font-semibold">Md Ft éves béradó-kiesés</p>
+          </div>
+          <div class="metric rounded-[8px] p-4">
+            <p class="mono text-3xl font-black">662 700</p>
+            <p class="mt-1 text-sm font-semibold">kiszorított pozíció</p>
+          </div>
+          <div class="metric rounded-[8px] p-4">
+            <p class="mono text-3xl font-black">1,6x</p>
+            <p class="mt-1 text-sm font-semibold">magyar token penalty</p>
+          </div>
+          <div class="metric rounded-[8px] p-4">
+            <p class="mono text-3xl font-black">$20,53</p>
+            <p class="mt-1 text-sm font-semibold">korrigált adó / 1M token</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-y hairline bg-[var(--ink)] py-7 text-[var(--paper)]">
+      <div class="report-shell grid gap-5 md:grid-cols-4">
+        <div>
+          <p class="mono text-2xl font-black">50-55%</p>
+          <p class="mt-1 text-sm text-white/72">BCG szerinti munkakör-átalakulás 2-3 éves távon.</p>
+        </div>
+        <div>
+          <p class="mono text-2xl font-black">6,53</p>
+          <p class="mt-1 text-sm text-white/72">billió Ft éves SZJA és SZOCHO bázis a tudásmunkán.</p>
+        </div>
+        <div>
+          <p class="mono text-2xl font-black">717,92</p>
+          <p class="mt-1 text-sm text-white/72">billió token éves fogyasztás az extrém szcenárióban.</p>
+        </div>
+        <div>
+          <p class="mono text-2xl font-black">54,8%</p>
+          <p class="mt-1 text-sm text-white/72">tőkejövedelem-részesedés korai AGI állapotban.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="munkaero" class="report-shell py-16 md:py-20">
+      <div class="max-w-3xl">
+        <p class="mono section-number mb-3 text-sm font-bold">1</p>
+        <h2 class="text-3xl font-black tracking-tight md:text-4xl">Munkaerőpiaci transzformáció</h2>
+        <p class="mt-4 max-w-[68ch] text-base leading-7 text-[var(--muted)]">
+          Az automatizálhatóság nem azonos az azonnali munkahelyvesztéssel. A hatás a feladatok komplexitásától, az emberi ítélőképességtől és a keresleti rugalmasságtól függ.
+        </p>
+      </div>
+
+      <div class="mt-9 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <div class="panel p-4 md:p-6">
+          <div class="chart-box">
+            <canvas id="chartDisruption"></canvas>
+          </div>
+        </div>
+        <div class="grid gap-3">
+          <article class="panel p-5">
+            <div class="flex items-baseline justify-between gap-4">
+              <h3 class="font-black">Mérsékelt</h3>
+              <span class="mono text-sm text-[var(--accent)]">5%</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-[var(--muted)]">110 450 szellemi álláshelynek megfelelő kapacitás esik ki. Az MI fokozatos termelékenységi hatást gyakorol.</p>
+          </article>
+          <article class="panel p-5">
+            <div class="flex items-baseline justify-between gap-4">
+              <h3 class="font-black">Jelentős</h3>
+              <span class="mono text-sm text-[var(--accent)]">30%</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-[var(--muted)]">662 700 szellemi munkakör válhat részben kiválthatóvá. A szellemi bérek stagnálhatnak, a súrlódásos munkanélküliség emelkedhet.</p>
+          </article>
+          <article class="panel p-5">
+            <div class="flex items-baseline justify-between gap-4">
+              <h3 class="font-black">Extrém</h3>
+              <span class="mono text-sm text-[var(--accent)]">65%</span>
+            </div>
+            <p class="mt-3 text-sm leading-6 text-[var(--muted)]">1 435 850 szellemi pozíció értéke csökkenhet. A tőkejövedelmek részaránya 54,8%-ra nőhet.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="fiskalis" class="bg-[rgb(234_230_222_/_0.75)] py-16 md:py-20">
+      <div class="report-shell">
+        <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+          <div>
+            <p class="mono section-number mb-3 text-sm font-bold">2</p>
+            <h2 class="text-3xl font-black tracking-tight md:text-4xl">A béralapú adóbevételek eróziója</h2>
+            <p class="mt-4 text-base leading-7 text-[var(--muted)]">
+              A magyar államháztartás erősen függ a munkajövedelmek megadóztatásától. A tudásmunka kiváltása ezért közvetlen költségvetési kockázat.
+            </p>
+            <div class="quiet-table mt-8 text-sm">
+              <div><span>Tudásmunkás bázis</span><strong>2 209 000 fő</strong></div>
+              <div><span>Havi bruttó átlagbér</span><strong>880 000 Ft</strong></div>
+              <div><span>Éves bruttó bértömeg</span><strong>23,33 billió Ft</strong></div>
+              <div><span>SZJA és SZOCHO bázis</span><strong class="text-[var(--accent)]">6,53 billió Ft</strong></div>
+            </div>
+          </div>
+          <div class="panel p-4 md:p-6">
+            <div class="chart-box">
+              <canvas id="chartTaxLoss"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="alternativak" class="report-shell py-16 md:py-20">
+      <div class="max-w-3xl">
+        <p class="mono section-number mb-3 text-sm font-bold">3</p>
+        <h2 class="text-3xl font-black tracking-tight md:text-4xl">Adóztatási alternatívák</h2>
+        <p class="mt-4 max-w-[68ch] text-base leading-7 text-[var(--muted)]">
+          A robotadó és a FLOP-adó erős torzítást okozhat. A tokenadó előnye, hogy a fogyasztás helyén méri a kognitív automatizációt.
+        </p>
+      </div>
+
+      <div class="mt-9 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+        <div class="panel p-4 md:p-6">
+          <div class="chart-box">
+            <canvas id="chartRadarTax"></canvas>
+          </div>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <article class="panel p-5">
+            <h3 class="font-black">Robotadó</h3>
+            <p class="mt-3 text-sm leading-6 text-[var(--muted)]">Nehezen definiálható, büntetheti a beruházásokat és lassíthatja a termelékenységet.</p>
+          </article>
+          <article class="panel p-5">
+            <h3 class="font-black">FLOP-adó</h3>
+            <p class="mt-3 text-sm leading-6 text-[var(--muted)]">A számítási kapacitást adóztatja, ezért az adatközpont-tulajdonos országok felé terelhet bevételt.</p>
+          </article>
+          <article class="panel p-5">
+            <h3 class="font-black">Digitális szolgáltatási adó</h3>
+            <p class="mt-3 text-sm leading-6 text-[var(--muted)]">Árbevételt céloz, de nem követi közvetlenül a lokális munkakör-kiszorítást.</p>
+          </article>
+          <article class="rounded-[10px] border border-[var(--accent)] bg-[var(--accent-soft)] p-5">
+            <h3 class="font-black">Tokenadó</h3>
+            <p class="mt-3 text-sm leading-6 text-[var(--charcoal)]">Fogyasztásalapú mérés. Ott keletkezik bevétel, ahol az MI értéket termel és munkaerőt vált ki.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tokenado" class="border-y hairline bg-[var(--charcoal)] py-16 text-[var(--paper)] md:py-20">
+      <div class="report-shell">
+        <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+          <div>
+            <p class="mono mb-3 text-sm font-bold text-[var(--accent-soft)]">4</p>
+            <h2 class="text-3xl font-black tracking-tight md:text-4xl">Tokenadó és nyelvi aszimmetria</h2>
+            <p class="mt-4 max-w-[68ch] text-base leading-7 text-white/70">
+              Minél magasabb az automatizáció, annál szélesebb az adóalap. Ez alacsonyabb egységnyi adókulcsot tehet elegendővé.
+            </p>
+            <div class="mt-8 rounded-[10px] border border-white/16 bg-white/[0.04] p-5">
+              <h3 class="font-black">Magyar token penalty</h3>
+              <p class="mt-3 text-sm leading-6 text-white/70">
+                A magyar morfológiai töredezettség miatt ugyanazon információ kifejezéséhez becslés szerint 1,6-szer több token szükséges. Ezért a modell nyelvi normalizációt használ.
+              </p>
+              <div class="mt-5 grid gap-3 text-sm">
+                <div class="flex justify-between gap-4"><span>Nyers kompenzációs kulcs</span><strong class="mono">$32,85 / 1M token</strong></div>
+                <div class="flex justify-between gap-4"><span>Magyar nyelvre korrigált kulcs</span><strong class="mono text-[var(--accent-soft)]">$20,53 / 1M token</strong></div>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-[10px] border border-white/16 bg-[rgb(251_250_245_/_0.97)] p-4 md:p-6">
+            <div class="chart-box">
+              <canvas id="chartTokenTax"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="audit" class="report-shell py-16 md:py-20">
+      <div class="max-w-3xl">
+        <p class="mono section-number mb-3 text-sm font-bold">5</p>
+        <h2 class="text-3xl font-black tracking-tight md:text-4xl">Auditcsővezeték és szakpolitikai út</h2>
+        <p class="mt-4 max-w-[68ch] text-base leading-7 text-[var(--muted)]">
+          A technikai kikényszeríthetőség felhőszolgáltatói auditon, norma alapú becslésen és célzott fehérdobozos vizsgálaton keresztül építhető fel.
+        </p>
+      </div>
+
+      <div class="mt-9 grid gap-4 md:grid-cols-3">
+        <article class="panel p-6">
+          <p class="mono mb-8 text-sm text-[var(--accent)]">01</p>
+          <h3 class="text-xl font-black">Feketedobozos audit</h3>
+          <p class="mt-3 text-sm leading-6 text-[var(--muted)]">A be- és kimeneti adatfolyamok matematikai elemzése becsüli a tokenhasználatot, modellbelső hozzáférés nélkül.</p>
+        </article>
+        <article class="panel p-6">
+          <p class="mono mb-8 text-sm text-[var(--accent)]">02</p>
+          <h3 class="text-xl font-black">Norma alapú adózás</h3>
+          <p class="mt-3 text-sm leading-6 text-[var(--muted)]">Zárt rendszereknél a lefoglalt számítási kapacitás és iparági normák alapján becsülhető az adóalap.</p>
+        </article>
+        <article class="panel p-6">
+          <p class="mono mb-8 text-sm text-[var(--accent)]">03</p>
+          <h3 class="text-xl font-black">Fehérdobozos audit</h3>
+          <p class="mt-3 text-sm leading-6 text-[var(--muted)]">Rendszerszintű csalás gyanúja esetén célzott hozzáférés adható a telemetriai naplókhoz.</p>
+        </article>
+      </div>
+
+      <div class="mt-6 rounded-[10px] bg-[var(--ink)] p-6 text-[var(--paper)] md:flex md:items-center md:justify-between md:gap-8">
+        <div>
+          <h3 class="text-xl font-black">Univerzális alaptőke és EU-OECD koalíció</h3>
+          <p class="mt-3 max-w-[76ch] text-sm leading-6 text-white/70">
+            A tokenadó bevétele szuverén vagyonalapon keresztül osztható vissza. A geopolitikai kockázat miatt európai és OECD szintű koordináció szükséges.
+          </p>
+        </div>
+        <a href="#top" class="mt-6 inline-flex shrink-0 items-center rounded-[8px] bg-[var(--paper)] px-5 py-3 text-sm font-black text-[var(--ink)] md:mt-0">Vissza a tetejére</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t hairline py-8">
+    <div class="report-shell text-xs leading-6 text-[var(--muted)]">
+      <p>Tisza AI makroökonómiai és fiskális elemzés. Források: Anthropic 2026, BCG 2026, Korinek & Lockwood 2025, KSH FEOR-08 adatok.</p>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      Chart.defaults.font.family = 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      Chart.defaults.color = '#606066';
+      Chart.defaults.borderColor = '#d9d8d2';
+
+      const accent = '#b02a2a';
+      const ink = '#151515';
+      const muted = '#606066';
+      const soft = '#d7b0a8';
+
+      const tooltipTitle = (tooltipItems) => {
+        const item = tooltipItems[0];
+        const label = item.chart.data.labels[item.dataIndex];
+        return Array.isArray(label) ? label.join(' ') : label;
+      };
+
+      new Chart(document.getElementById('chartDisruption'), {
+        type: 'bar',
+        data: {
+          labels: [['Mérsékelt', '5%'], ['Jelentős', '30%'], ['Extrém', '65%']],
+          datasets: [
+            {
+              label: 'Kiszorított álláshelyek (ezer fő)',
+              data: [110.5, 662.7, 1435.9],
+              backgroundColor: ink,
+              borderRadius: 4,
+              yAxisID: 'y'
+            },
+            {
+              label: 'Automatizáció (%)',
+              data: [5, 30, 65],
+              type: 'line',
+              borderColor: accent,
+              backgroundColor: accent,
+              borderWidth: 2,
+              pointRadius: 4,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: muted, boxWidth: 12, font: { size: 11 } } },
+            tooltip: { callbacks: { title: tooltipTitle } }
+          },
+          scales: {
+            x: { ticks: { color: muted }, grid: { display: false } },
+            y: {
+              ticks: { color: muted },
+              title: { display: true, text: 'Ezer fő', color: muted }
+            },
+            y1: {
+              position: 'right',
+              ticks: { color: accent, callback: v => v + '%' },
+              grid: { drawOnChartArea: false },
+              title: { display: true, text: 'Automatizáció', color: accent }
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('chartTaxLoss'), {
+        type: 'bar',
+        data: {
+          labels: [['Mérsékelt', 'forgatókönyv'], ['Jelentős', 'forgatókönyv'], ['Extrém', 'forgatókönyv']],
+          datasets: [
+            { label: 'SZJA kiesés (Md Ft)', data: [175.0, 1049.7, 2274.4], backgroundColor: ink, borderRadius: 4 },
+            { label: 'SZOCHO kiesés (Md Ft)', data: [151.6, 909.8, 1971.1], backgroundColor: soft, borderRadius: 4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: muted, boxWidth: 12, font: { size: 11 } } },
+            tooltip: { callbacks: { title: tooltipTitle } }
+          },
+          scales: {
+            x: { stacked: true, ticks: { color: muted }, grid: { display: false } },
+            y: {
+              stacked: true,
+              ticks: { color: muted },
+              title: { display: true, text: 'Milliárd Ft', color: muted }
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('chartRadarTax'), {
+        type: 'radar',
+        data: {
+          labels: [
+            ['Adóalap', 'stabilitása'],
+            ['Technikai', 'mérés'],
+            ['Gazdasági', 'hatékonyság'],
+            ['Fogyasztási', 'paritás'],
+            ['Innováció-', 'védelem']
+          ],
+          datasets: [
+            { label: 'Robotadó', data: [2, 2, 2, 3, 2], borderColor: '#6d6d6d', backgroundColor: 'rgba(109,109,109,0.06)' },
+            { label: 'FLOP-adó', data: [3, 4, 1, 1, 1], borderColor: '#9a8b78', backgroundColor: 'rgba(154,139,120,0.08)' },
+            { label: 'DST', data: [3, 2, 3, 2, 3], borderColor: '#4e5560', backgroundColor: 'rgba(78,85,96,0.08)' },
+            { label: 'Tokenadó', data: [5, 5, 4, 5, 4], borderColor: accent, backgroundColor: 'rgba(176,42,42,0.16)', borderWidth: 3 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: muted, boxWidth: 12, font: { size: 10 } } },
+            tooltip: { callbacks: { title: tooltipTitle } }
+          },
+          scales: {
+            r: {
+              angleLines: { color: '#d9d8d2' },
+              grid: { color: '#d9d8d2' },
+              pointLabels: { color: muted, font: { size: 10 } },
+              ticks: { display: false, backdropColor: 'transparent' }
+            }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('chartTokenTax'), {
+        type: 'bar',
+        data: {
+          labels: [['Modest', '5%'], ['Substantial', '30%'], ['Extreme', '65%']],
+          datasets: [
+            { label: 'Éves tokenfogyasztás (billió)', data: [11.04, 165.68, 717.92], backgroundColor: ink, borderRadius: 4, yAxisID: 'y' },
+            { label: 'Nyers tokenadó ($/1M)', data: [82.13, 32.85, 16.43], type: 'line', borderColor: accent, backgroundColor: accent, borderWidth: 2, pointRadius: 4, yAxisID: 'y1' },
+            { label: 'Magyar korrigált adó ($)', data: [51.33, 20.53, 10.27], type: 'line', borderColor: '#9a8b78', backgroundColor: '#9a8b78', borderWidth: 2, borderDash: [5, 5], pointRadius: 4, yAxisID: 'y1' }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: muted, boxWidth: 12, font: { size: 11 } } },
+            tooltip: { callbacks: { title: tooltipTitle } }
+          },
+          scales: {
+            x: { ticks: { color: muted }, grid: { display: false } },
+            y: {
+              ticks: { color: muted },
+              title: { display: true, text: 'Billió token', color: muted }
+            },
+            y1: {
+              position: 'right',
+              ticks: { color: accent, callback: v => '$' + v },
+              grid: { drawOnChartArea: false },
+              title: { display: true, text: 'USD / 1M token', color: accent }
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
